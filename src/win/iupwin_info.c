@@ -19,7 +19,8 @@
 #include "iupwin_str.h"
 
 #include <windows.h>
-#include <ShlObj.h> /* for SHGetFolderPath */
+//#include <ShlObj.h> /* for SHGetFolderPath */
+#include <shlobj.h>
 
 
 #ifdef _MSC_VER

@@ -1,26 +1,35 @@
 defines = []
+deps = []
+includes = ['../include']
 
 subdir('gtk')
 subdir('win')
 
-gtk3 = dependency('gtk+-3.0')
-gdk = dependency('gdk-3.0')
-cc = meson.get_compiler('c')
-m_dep = cc.find_library('m', required: true)
-
-gtk_driver_deps = [gtk3, gdk, m_dep]
-
-with_x11 = get_option('with_x11')
-if with_x11
-    gtk_driver_src += 'mot/iupx11_info.c'
-    x11 = dependency('x11')
-    gtk_driver_deps += x11
-else
-    gtk_driver_src += 'gtk/iupgtk_info.c'
-    defines += '-DGDK_NULL'
-endif
-
 os = host_machine.system()
+cc = meson.get_compiler('c')
+
+if os == 'linux'
+    gtk3 = dependency('gtk+-3.0')
+    gdk = dependency('gdk-3.0')
+    m_dep = cc.find_library('m', required: true)
+
+    deps += [gtk3, gdk, m_dep]
+
+    with_x11 = get_option('with_x11')
+    if with_x11
+        gtk_driver_src += 'mot/iupx11_info.c'
+        x11 = dependency('x11')
+        deps += x11
+    else
+        gtk_driver_src += 'gtk/iupgtk_info.c'
+        defines += '-DGDK_NULL'
+    endif
+elif os == 'windows'
+    includes += 'win/wdl'
+    defines += ['-D_WIN32_WINNT=0x0601','-D_WIN32_IE=0x600','-DWINVER=0x0601','-DNOTREEVIEW','-DCOBJMACROS', '-D_UNICODE', '-DUSE_NEW_DRAW', '-DUNICODE']
+    comctl32 = cc.find_library('comctl32', required: true)
+    deps += comctl32
+endif
 
 #iupdrv = static_library(
 #    'iupdrv',
@@ -145,14 +154,14 @@ endif
 iup = static_library(
     'iup',
     main_src,
-    include_directories: ['../include',],
+    include_directories: includes,
     c_args: [
         '-DGDK_DISABLE_DEPRECATED',
         '-DGSEAL_ENABLE',
         '-D_FORTIFY_SOURCE=0',
         defines,
     ],
-    dependencies: gtk_driver_deps,
+    dependencies: deps,
 )
 
 iup_dep = declare_dependency(include_directories: '../include', link_with: iup)
