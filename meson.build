@@ -1,7 +1,11 @@
-project('iup', ['c'])
+project('iup', ['c', 'cpp'], )
 
 subdir('src')
 subdir('libs/cd')
+subdir('libs/im')
+subdir('components/iupcd')
+subdir('components/controls')
+subdir('components/iupscintilla')
 
 if get_option('build_tools')
     subdir('tools/vled')

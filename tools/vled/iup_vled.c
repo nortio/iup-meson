@@ -51,9 +51,9 @@
 
 void vLedLoadImages(void);
 
-Ihandle* vLedImageEditorCreate(Ihandle* parent, Ihandle *config);
-void vLedImageEditorNewImage(Ihandle* dlg, const char* filename);
-void vLedImageEditorSetImage(Ihandle* dlg, Ihandle* iup_image, const char* name);
+//Ihandle* vLedImageEditorCreate(Ihandle* parent, Ihandle *config);
+//void vLedImageEditorNewImage(Ihandle* dlg, const char* filename);
+//void vLedImageEditorSetImage(Ihandle* dlg, Ihandle* iup_image, const char* name);
 
 
 #define VLED_FOLDING_MARGIN "20"
@@ -210,7 +210,8 @@ static int LoadImageFile(Ihandle* ih_item, const char* img_filename)
 {
   Ihandle* currMultitext = vLedGetCurrentMultitext(ih_item);
 
-  Ihandle* new_image = IupLoadImage(img_filename);
+  // TODO(nortio)
+  Ihandle* new_image = NULL; //IupLoadImage(img_filename);
 
   if (new_image)
   {
@@ -851,12 +852,12 @@ static int multitext_map_cb(Ihandle* multitext)
   IupSetAttribute(multitext, "LEXERLANGUAGE", "led");
   set_keywords(multitext);
 
-  IupSetAttribute(multitext, "STYLEFGCOLOR1", "0 128 0");    /* 1-Led comment */
-  IupSetAttribute(multitext, "STYLEFGCOLOR2", "255 128 0");  /* 2-Number  */
-  IupSetAttribute(multitext, "STYLEFGCOLOR3", "0 0 255");    /* 3-Keyword  */
-  IupSetAttribute(multitext, "STYLEFGCOLOR4", "164 0 164");  /* 4-String  */
-  IupSetAttribute(multitext, "STYLEFGCOLOR5", "164 0 164");  /* 5-Character  */
-  IupSetAttribute(multitext, "STYLEFGCOLOR6", "164 0 0");   /* 6-Operator  */
+  IupSetAttribute(multitext, "STYLEFGCOLOR1", "0 128 0");    /* 1-Led commentï¿½*/
+  IupSetAttribute(multitext, "STYLEFGCOLOR2", "255 128 0");  /* 2-Numberï¿½ï¿½*/
+  IupSetAttribute(multitext, "STYLEFGCOLOR3", "0 0 255");    /* 3-Keywordï¿½ï¿½*/
+  IupSetAttribute(multitext, "STYLEFGCOLOR4", "164 0 164");  /* 4-Stringï¿½ï¿½*/
+  IupSetAttribute(multitext, "STYLEFGCOLOR5", "164 0 164");  /* 5-Characterï¿½ï¿½*/
+  IupSetAttribute(multitext, "STYLEFGCOLOR6", "164 0 0");   /* 6-Operatorï¿½ï¿½*/
   /* 3, 8 and 9 - are not used */
   IupSetAttribute(multitext, "STYLEBOLD10", "YES");
 
@@ -1909,13 +1910,14 @@ static int item_export_img_cb(Ihandle *ih_item)
       strcat(img_filename, ".");
       strcat(img_filename, buff);
 
-      if (!IupSaveImage(elem, img_filename, img_type))
+      // TODO(nortio)
+/*       if (!IupSaveImage(elem, img_filename, img_type))
       {
         char* err_msg = IupGetGlobal("IUPIM_LASTERROR");
         if (err_msg)
           IupMessageError(IupGetDialog(ih_item), err_msg);
         return IUP_DEFAULT;
-      }
+      } */
 
       num_images++;
     }
@@ -2860,7 +2862,8 @@ static int imagechanged_cb(Ihandle* image_editor_dlg)
 
 static int elem_imagedlg_cb(Ihandle* ih_item)
 {
-  Ihandle* elem_tree = !IupClassMatch(ih_item, "item") ? get_elem_tree(ih_item) : (Ihandle*)IupGetAttribute(ih_item, "ELEMENTS_TREE");
+  //TODO(nortio)
+/*   Ihandle* elem_tree = !IupClassMatch(ih_item, "item") ? get_elem_tree(ih_item) : (Ihandle*)IupGetAttribute(ih_item, "ELEMENTS_TREE");
   Ihandle* multitext = vLedGetCurrentMultitext(elem_tree);
   int id = IupGetInt(elem_tree, "VALUE");
   Ihandle *elem = (Ihandle *)IupTreeGetUserId(elem_tree, id);
@@ -2879,14 +2882,15 @@ static int elem_imagedlg_cb(Ihandle* ih_item)
 
   vLedImageEditorSetImage(image_editor_dlg, elem, IupGetName(elem));
 
-  IupPopup(image_editor_dlg, IUP_CURRENT, IUP_CURRENT);
+  IupPopup(image_editor_dlg, IUP_CURRENT, IUP_CURRENT); */
 
   return IUP_DEFAULT;
 }
 
 static int item_newimage_cb(Ihandle* ih_item)
 {
-  Ihandle* multitext = vLedGetCurrentMultitext(ih_item);
+  //TODO(nortio)
+/*   Ihandle* multitext = vLedGetCurrentMultitext(ih_item);
   char *filename = get_filename(multitext);
   Ihandle* config = get_config(ih_item);
   Ihandle* image_editor_dlg = (Ihandle*)IupGetAttribute(IupGetDialog(multitext), "IMAGE_EDITOR_DIALOG");
@@ -2902,7 +2906,7 @@ static int item_newimage_cb(Ihandle* ih_item)
 
   vLedImageEditorNewImage(image_editor_dlg, filename);
 
-  IupPopup(image_editor_dlg, IUP_CURRENT, IUP_CURRENT);
+  IupPopup(image_editor_dlg, IUP_CURRENT, IUP_CURRENT); */
 
   return IUP_DEFAULT;
 }
@@ -3414,10 +3418,11 @@ int main(int argc, char **argv)
   int i;
 
   IupOpen(&argc, &argv);
-  IupImageLibOpen();
+  //IupImageLibOpen();
   IupScintillaOpen();
   IupControlsOpen();
-  IupImOpen();
+  // TODO(nortio)
+  //IupImOpen();
 #ifndef USE_NO_OPENGL  
   IupGLCanvasOpen();
   IupGLControlsOpen();
